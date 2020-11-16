@@ -1,0 +1,33 @@
+version: '2'
+services:
+  mysql:
+    image: docker-app/mysql8
+    ports:
+       - 3306:3306
+
+  server1:
+    image: docker-app/app_inst
+    ports:
+       - 8081:80
+    links:
+       - mysql:mysql
+    depends_on:
+       - mysql
+
+  server2:
+    image: docker_app/app_inst
+    ports:
+       - 8082:80
+    links:
+       - mysql:mysql
+    depends_on:
+       - mysql
+
+  nginx:
+    image: docker-app/nginx_php
+    ports:
+       - 85:80
+    depends_on:
+       - mysql
+       - server1
+       - server2  
